@@ -8,10 +8,7 @@ class AddContact extends Component {
     name: "",
     email: "",
     phone: "",
-    errors: {
-      name: "Name is required", 
-      email: "Email is required"
-    }
+    errors: {}
   }
 
   onChange = e => {
@@ -53,6 +50,9 @@ class AddContact extends Component {
       phone: "", 
       errors: {}
     })
+
+    // redirect
+    this.props.history.push("/")
   }
 
   render() {
@@ -92,7 +92,6 @@ class AddContact extends Component {
                     onChange={this.onChange}
                     errors={errors.phone}
                   />
-
                   {/* <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input
