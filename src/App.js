@@ -3,15 +3,17 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 // import Contact from './components/Contact'
 import Header from './components/Header'
 import Contacts from './components/Contacts'
+import { Provider } from './context'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Header branding="Contact Manager" />
-        <div className="container">
-        <Contacts />
-        {/* <Contact 
+      <Provider>
+        <div className="App">
+          <Header branding="Contact Manager" />
+          <div className="container">
+            <Contacts />
+            {/* <Contact 
           name="John Smith" 
           email="john@john.com" 
           phone="555-555-5555" />
@@ -23,8 +25,9 @@ class App extends Component {
           name="Oliv Mile" 
           email="oliv@oliv.com" 
           phone="888-888-8888" /> */}
+          </div>
         </div>
-      </div>
+      </Provider>
     )
   }
 }

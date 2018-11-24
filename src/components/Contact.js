@@ -7,6 +7,10 @@ class Contact extends Component {
     showContactInfo: false
   }
 
+  onDeleteClick = () => {
+    this.props.deleteClickHandler()
+  }
+
   // onShowClick = () => {
   //   this.setState({  
   //     // toggle
@@ -31,8 +35,11 @@ class Contact extends Component {
           {/* OR onClick={this.onShowClick} */}
           <i
             onClick={() => this.setState({ showContactInfo: !this.state.showContactInfo })}
-            className="fas fa-sort-down">
-          </i>
+            className="fas fa-sort-down" 
+            style={{ cursor: "pointer" }} />
+          <i className="fas fa-times" 
+            style={{ cursor: "pointer", float: "right", color: "red" }} 
+            onClick={this.onDeleteClick} />
         </h4>
 
         {/* toggle */}
@@ -49,7 +56,8 @@ class Contact extends Component {
 }
 
 Contact.propTypes = {
-  contact: PropTypes.object.isRequired
+  contact: PropTypes.object.isRequired, 
+  deleteClickHandler: PropTypes.func.isRequired
 }
 
 export default Contact
