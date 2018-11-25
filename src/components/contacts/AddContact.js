@@ -12,10 +12,6 @@ class AddContact extends Component {
     errors: {}
   }
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-
   onSubmit = async (dispatch, e) => {
     e.preventDefault()
 
@@ -59,6 +55,9 @@ class AddContact extends Component {
     this.props.history.push("/")
   }
 
+  onChange = e => {this.setState({ [e.target.name]: e.target.value })}
+
+
   render() {
     const { name, email, phone, errors } = this.state
 
@@ -78,7 +77,7 @@ class AddContact extends Component {
                     placeholder="Enter Name..."
                     value={name}
                     onChange={this.onChange}
-                    errors={errors.name}
+                    error={errors.name}
                   />
                   <TextInputGroup
                     name="email"
@@ -86,7 +85,7 @@ class AddContact extends Component {
                     placeholder="Enter Email... "
                     value={email}
                     onChange={this.onChange}
-                    errors={errors.email}
+                    error={errors.email}
                   />
                   <TextInputGroup
                     name="phone"
@@ -94,7 +93,7 @@ class AddContact extends Component {
                     placeholder="Enter Phone..."
                     value={phone}
                     onChange={this.onChange}
-                    errors={errors.phone}
+                    error={errors.phone}
                   />
                   {/* <div className="form-group">
                     <label htmlFor="email">Email</label>

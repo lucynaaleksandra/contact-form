@@ -18,16 +18,12 @@ class EditContact extends Component {
     const response = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
 
     const contact = response.data
-    
+
     this.setState({
       name: contact.name,
       email: contact.email,
       phone: contact.phone
     })
-  }
-
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
   }
 
   onSubmit = async (dispatch, e) => {
@@ -36,30 +32,42 @@ class EditContact extends Component {
     const { name, email, phone } = this.state
 
     // check for errors 
-    if(name === "") {
-      this.setState({ errors: { name: "Name is required" }})
+    if (name === "") {
+      this.setState({ errors: { name: "Name is required" } })
       return
     }
-    if(email === "") {
-      this.setState({ errors: { email: "Email is required" }})
+    if (email === "") {
+      this.setState({ errors: { email: "Email is required" } })
       return
     }
-    if(phone === "") {
-      this.setState({ errors: { phone: "Phone is required" }})
+    if (phone === "") {
+      this.setState({ errors: { phone: "Phone is required" } })
       return
     }
+
+    const updateContact = {
+      name,
+      email,
+      phone
+    }
+    const { id } = this.props.match.params
+    const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, updateContact)
+    dispatch({ type: "UPDATE_CONTACT", payload: response.data })
 
     // clear state
     this.setState({
       name: "",
       email: "",
-      phone: "", 
+      phone: "",
       errors: {}
     })
 
     // redirect
     this.props.history.push("/")
   }
+
+  onChange = e => {this.setState({ [e.target.name]: e.target.value })}
+
 
   render() {
     const { name, email, phone, errors } = this.state
@@ -80,7 +88,7 @@ class EditContact extends Component {
                     placeholder="Enter Name..."
                     value={name}
                     onChange={this.onChange}
-                    errors={errors.name}
+                    error={errors.name}
                   />
                   <TextInputGroup
                     name="email"
@@ -88,7 +96,7 @@ class EditContact extends Component {
                     placeholder="Enter Email... "
                     value={email}
                     onChange={this.onChange}
-                    errors={errors.email}
+                    error={errors.email}
                   />
                   <TextInputGroup
                     name="phone"
@@ -96,7 +104,7 @@ class EditContact extends Component {
                     placeholder="Enter Phone..."
                     value={phone}
                     onChange={this.onChange}
-                    errors={errors.phone}
+                    error={errors.phone}
                   />
                   <input
                     type="submit"

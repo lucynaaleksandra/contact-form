@@ -12,10 +12,14 @@ class Contact extends Component {
   }
 
   onDeleteClick = async (id, dispatch) => {
-    await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
-
-    dispatch({ type: "DELETE_CONTACT", payload: id })
+    try {
+      await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`)
+      dispatch({ type: "DELETE_CONTACT", payload: id })
+    } catch (exception) {
+      dispatch({ type: "DELETE_CONTACT", payload: id })
+    }
   }
+
 
   render() {
     const { id, name, email, phone } = this.props.contact
@@ -31,25 +35,28 @@ class Contact extends Component {
               <h5>
                 {name}{' '}
                 <i
-                  onClick={() => this.setState({ showContactInfo: !this.state.showContactInfo })}
+                  onClick={() => 
+                    this.setState({ 
+                      showContactInfo: !this.state.showContactInfo 
+                    })}
                   className="fas fa-sort-down"
                   style={{ cursor: "pointer" }} />
-                <i 
+                <i
                   className="fas fa-times"
-                  style={{ 
-                    cursor: "pointer", 
-                    float: "right", 
-                    color: "red" 
+                  style={{
+                    cursor: "pointer",
+                    float: "right",
+                    color: "red"
                   }}
                   onClick={this.onDeleteClick.bind(this, id, dispatch)} />
 
                 <Link to={`contact/edit/${id}`} >
-                  <i 
+                  <i
                     className="fas fa-pencil-alt"
-                    style={{ 
-                      cursor: "pointer", 
-                      float: "right", 
-                      color: "black", 
+                    style={{
+                      cursor: "pointer",
+                      float: "right",
+                      color: "black",
                       marginRight: "1rem"
                     }} ></i>
                 </Link>
