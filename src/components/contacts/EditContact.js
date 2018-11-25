@@ -1,15 +1,29 @@
 import React, { Component } from 'react'
-// import uuid from 'uuid'
 import { Consumer } from '../../context'
 import TextInputGroup from '../layout/TextInputGroup'
 import axios from 'axios'
 
-class AddContact extends Component {
+
+class EditContact extends Component {
   state = {
     name: "",
     email: "",
     phone: "",
     errors: {}
+  }
+
+  async componentDidMount() {
+    // to get id from parameter use this.props.match.params... 
+    const { id } = this.props.match.params
+    const response = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`)
+
+    const contact = response.data
+    
+    this.setState({
+      name: contact.name,
+      email: contact.email,
+      phone: contact.phone
+    })
   }
 
   onChange = e => {
@@ -35,18 +49,6 @@ class AddContact extends Component {
       return
     }
 
-    const newContact = {
-      // id: uuid(),
-      name,
-      email,
-      phone
-    }
-
-    const response = await axios
-      .post('https://jsonplaceholder.typicode.com/users', newContact)
-      // .then(response => dispatch({ type: "ADD_CONTACT", payload: response.data }))
-      dispatch({ type: "ADD_CONTACT", payload: response.data })
-
     // clear state
     this.setState({
       name: "",
@@ -69,7 +71,7 @@ class AddContact extends Component {
 
           return (
             <div className="card mb-3" >
-              <div className="card-header">Add Contact</div>
+              <div className="card-header">Edit Contact</div>
               <div className="card-body">
                 <form onSubmit={this.onSubmit.bind(this, dispatch)}>
                   <TextInputGroup
@@ -96,20 +98,9 @@ class AddContact extends Component {
                     onChange={this.onChange}
                     errors={errors.phone}
                   />
-                  {/* <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      className="form-control form-control-lg"
-                      placeholder="Enter Email..."
-                      value={email}
-                      onChange={this.onChange}
-                    />
-                  </div> */}
                   <input
                     type="submit"
-                    value="Add Contact"
+                    value="Update Contact"
                     style={{ backgroundColor: "lightGrey" }}
                     className="btn btn-block btn-dash-white" />
                 </form>
@@ -123,4 +114,4 @@ class AddContact extends Component {
   }
 }
 
-export default AddContact
+export default EditContact
